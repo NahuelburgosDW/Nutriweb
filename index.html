@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Prueba Nutriweb IA</title>
+</head>
+<body>
+  <h1>Prueba Nutriweb con IA</h1>
+  <form id="formulario">
+    <label for="prompt">Escribí tu pregunta:</label><br />
+    <textarea id="prompt" rows="4" cols="50"></textarea><br /><br />
+    <button type="submit">Enviar</button>
+  </form>
+  <h2>Respuesta:</h2>
+  <pre id="respuesta"></pre>
+
+  <script>
+    const form = document.getElementById('formulario');
+    const respuesta = document.getElementById('respuesta');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      respuesta.textContent = 'Cargando...';
+
+      const prompt = document.getElementById('prompt').value;
+
+      try {
+        const res = await fetch('http://localhost:5000/preguntar', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt }),
+        });
+
+        if (!res.ok) {
+          respuesta.textContent = 'Error en la respuesta de la API';
+          return;
+        }
+
+        const data = await res.json();
+        respuesta.textContent = data.respuesta;
+      } catch (error) {
+        respuesta.textContent = 'Error al llamar a la API: ' + error.message;
+      }
+    });
+  </script>
+</body>
+</html>
