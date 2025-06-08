@@ -5,7 +5,7 @@ class RecipeController {
         const { ingredients } = req.body;
         const numRecipes = parseInt(req.query.numRecipes) || 3;
         
-        if (numRecipes < 1 || numRecipes > 5) { // Se limita el número para evitar prompts demasiado grandes
+        if (numRecipes < 1 || numRecipes > 5) { 
              return next('El número de recetas debe ser entre 1 y 5.', 400);
         }
 
